@@ -1,0 +1,20 @@
+version: "3"
+services:
+  test_db:
+    image: postgres:9.6
+    container_name: "postgres_db"
+    ports:
+      - 5555:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    tty: true
+    restart: always
+    user: postgres
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+      - test_db:/var/lib/postgresql/data
+
+volumes:
+  test_db:
+    external: false
