@@ -1,15 +1,19 @@
-version: "3"
+version: '3.5'
 services:
-  test_db:
-    image: postgres:9.6
+  postgres_db:
     container_name: "postgres_db"
-    ports:
-      - 5555:5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    tty: true
+    image: postgres:9.6
+    networks:
+      - marketdata_network
+    ports:
+      - 5555:5432
+    expose:
+      - "5555"
     restart: always
+    tty: true
     user: postgres
     volumes:
       - ./init:/docker-entrypoint-initdb.d
@@ -18,3 +22,8 @@ services:
 volumes:
   test_db:
     external: false
+
+networks:
+  marketdata_network:
+    driver: bridge
+    name: marketdata
